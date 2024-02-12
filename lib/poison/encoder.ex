@@ -443,10 +443,6 @@ defimpl Poison.Encoder, for: Any do
     end
   end
 
-  def encode(%{__struct__: _} = struct, options) do
-    Encoder.Map.encode(Map.from_struct(struct), options)
-  end
-
   def encode(value, _options) do
     raise EncodeError, value: value
   end
