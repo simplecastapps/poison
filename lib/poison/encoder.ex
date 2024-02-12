@@ -109,7 +109,7 @@ defimpl Poison.Encoder, for: Atom do
 end
 
 defimpl Poison.Encoder, for: BitString do
-  use Bitwise
+  import Bitwise
 
   @compile :inline
   @compile :inline_list_funcs
@@ -225,7 +225,6 @@ defimpl Poison.Encoder, for: Integer do
     Integer.to_string(integer)
   end
 end
-
 defimpl Poison.Encoder, for: Float do
   def encode(float, _options) do
     Float.to_string(float)
