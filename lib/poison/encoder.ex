@@ -377,6 +377,19 @@ defimpl Poison.Encoder, for: [Range, Stream, MapSet, HashSet, Date.Range] do
   end
 end
 
+defimpl Poison.Encoder, for: Function do
+  def encode(collection, options) when is_function(collection, 2) do
+    collection |> Enum.to_list() |> Poison.Encoder.encode(options)
+  end
+
+  def encode(collection, _) do
+    raise Poison.EncodeError,
+      value: collection,
+      message: "only anonymous functions of arity 2 are decodable as lists"
+  end
+end
+
+
 defimpl Poison.Encoder, for: [Date, Time, NaiveDateTime, DateTime] do
   def encode(value, options) do
     Poison.Encoder.BitString.encode(@for.to_iso8601(value), options)
